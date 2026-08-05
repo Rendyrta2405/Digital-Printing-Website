@@ -1,0 +1,18 @@
+@extends('layouts')
+
+@section('content')
+   @include('components.hero')
+   @include('components.statistik')
+   @include('components.kategori-produk')
+   @include('components.section-harga')
+   @include('components.katalog-produk')
+   @include('components.galeri')
+   @include('components.new-products')
+   @include('components.custom-hadiah')
+   @include('components.why-us')
+   @include('components.video')
+   @include('components.tentang-kami')
+   @include('components.fasilitas')
+   @include('components.testimoni')
+   @include('components.brand-partner')
+@endsection 
