@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Percetakan Online - Cepat, Murah, Berkualitas</title>
+  <title>@yield('title', 'Digital Printing - Cepat, Murah, Berkualitas')</title>
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
@@ -14,7 +14,7 @@
   <!-- AOS Animation -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
    <!-- Custom CSS -->
-   <link rel="stylesheet" href="/css/index.css">
+   <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
 
@@ -42,49 +42,23 @@
 <header class="">
   <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top py-3" id="mainNav">
     <div class="container">
-      <a class="navbar-brand" href="/">Toko Percetakan</a>
+      <a class="navbar-brand" href="/">@yield('brand', 'Digital Printing')</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="/">Home</a>
+            <a class="nav-link active" href="{{ route('home') }}">Home</a>
           </li>
-          <!-- Dropdown Produk -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="produkDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Produk
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="produkDropdown">
-              <li><a class="dropdown-item" href="#harga-section">Harga</a></li>
-              <li><a class="dropdown-item" href="#katalog">Katalog</a></li>
-              <li><a class="dropdown-item" href="#produk-terlaris">Terlaris</a></li>
-              <li><a class="dropdown-item" href="#custom">Custom</a></li>
-              <li><a class="dropdown-item" href="#faq">Cara Order</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Banner/">Banner</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Stiker/">Stiker</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Stempel/">Stempel</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Kartu-Nama/">Kartu Nama</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Undangan/">Undangan</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Buku/">Buku</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#contact">Kontak</a>
-          </li>
+
+           @foreach($navbarCategories as $cat)
+              <li class="nav-item">
+                 <a href="{{ route('categories.show', $cat->slug) }}" class="nav-link">
+                    {{ $cat->name }}
+                 </a>
+              </li>
+           @endforeach
         </ul>
       </div>
     </div>
@@ -93,7 +67,7 @@
 
 <main>
    @yield('content')
-
+   
    <!-- CTA Utama -->
    <section class="cta overflow-hidden">
      <div class="container">
@@ -209,7 +183,7 @@
      </div>
    </section>
 </main>
-
+   
 <!-- Footer -->
 <footer class="text-center overflow-hidden">
   <div class="container">
@@ -217,34 +191,6 @@
     <p>&copy; 2026 Toko Percetakan | Hak Cipta Dilindungi | All rights reserved.</p>
   </div>
 </footer>
-   
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox">
-  <span class="close" onclick="closeLightbox()">&times;</span>
-  <span class="prev" onclick="prevImage()">&#10094;</span>
-  <span class="next" onclick="nextImage()">&#10095;</span>
-  <img id="lightbox-img" src="">
-</div>
-
-<!-- Modal Order Steps - Akan diisi dinamis oleh JavaScript -->
-<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="orderModalLabel">Pesan <span id="modalProductName"></span></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="modalBody">
-        <!-- Konten akan diisi oleh JavaScript -->
-        <p>Loading...</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn-modal-order" onclick="sendOrderViaWA()">Pesan via WhatsApp</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

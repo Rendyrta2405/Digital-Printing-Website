@@ -13,7 +13,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('layouts.app', compact('categories'));
     }
 
     /**
@@ -35,9 +36,23 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show(string $slug)
     {
-        //
+        $category = Category::where('slug', $slug)
+           ->with('products')
+           ->firstOrFail();
+
+        $products = $category->products->where('is_active', true);
+
+        $tags = $products->pluck('tag')->unique()->filter()->values();
+
+        // $products->pluck('tag') 
+        // ambil kolom tag saja ["Promosi","Promosi","Event",null,...]
+        //  ->unique()       // buang duplikat:      ["Promosi","Event",null,...]
+        //  ->filter()       // buang null/kosong:   ["Promosi","Event",...]
+        //  ->values();      // rapikan index:       [0=>"Promosi",1=>"Event",...]
+
+        return view('category', compact('category', 'products', 'tags'));
     }
 
     /**
