@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Testimonial;
+use App\Models\Gallery;
+use App\Models\Facility;
+use App\Models\Partner;
 
 class HomeController extends Controller
 {
@@ -34,8 +37,22 @@ class HomeController extends Controller
          ->orderBy('sort_order')
          ->get();
    
-      $testimonials = Testimonial::orderBy('sort_order')
+      $testimonials = Testimonial::where('is_approved', true)->orderBy('sort_order')
          ->get();
+
+      $galleries = Gallery::where('show_in_web', true)
+         ->latest()
+         ->paginate(10);
+       
+      $facilities = Facility::where('show_in_web', true)
+         ->latest()
+         ->paginate(6);
+       
+      $partners = Partner::where('show_in_web', true)
+         ->latest()
+         ->paginate(10);
+
+       $productsCount = Product::count();
    
       return view('home', compact(
          'categories',
@@ -43,6 +60,10 @@ class HomeController extends Controller
          'featuredProducts',
          'customProducts',
          'testimonials',
+         'galleries',
+         'productsCount',
+         'facilities',
+         'partners',
       ));
     }
 

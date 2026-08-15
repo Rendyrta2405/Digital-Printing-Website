@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->text('description')->nullable();
+            $table->string('title');
+            $table->string('slogan')->nullable();
+            $table->text('description');
             $table->string('image')->nullable();
             $table->string('price_text')->nullable();
             $table->string('show_in_navbar')->nullable();

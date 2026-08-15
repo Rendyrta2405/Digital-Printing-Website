@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('role')->nullable();
+            $table->string('image')->nullable();
             $table->text('content');
             $table->tinyInteger('rating')->default(5);
+            $table->boolean('is_approved')->default(false);
             $table->integer('sort_order')->default(0);
-            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
