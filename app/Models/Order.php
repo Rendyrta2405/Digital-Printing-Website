@@ -55,8 +55,9 @@ class Order extends Model
 
         if ($this->product->price_unit === '/m²' && $this->width && $this->height) {
             return (int) round(
-               $this->width * $this->height * $this->product->price) 
-               * $this->quantity;
+               $this->width * $this->height * 
+               $this->product->price * $this->quantity
+            );
         }
 
         return $this->product->price * $this->quantity;

@@ -14,8 +14,8 @@ class SettingController extends Controller
      */
     public function index()
     {
-        return view('admin.settings.index', [
-           'settings' => Setting::all(),
+        return view('admin.settings.edit', [
+           'setting' => Setting::first(),
         ]);
     }
 
@@ -48,9 +48,7 @@ class SettingController extends Controller
      */
     public function edit()
     {
-        return view('admin.settings.edit', [
-           'settings' => Setting::all()->pluck('value', 'key'),
-        ]);
+       // 
     }
 
     /**
@@ -97,8 +95,8 @@ class SettingController extends Controller
 
    private function deleteOldImage(?Setting $setting): void
    {
-      if ($setting?->image && str_starts_with($setting->image, 'settings/')) {
-         Storage::disk('public')->delete($setting->image);
+      if ($setting?->about_img && str_starts_with($setting->about_img, 'settings/')) {
+         Storage::disk('public')->delete($setting->about_img);
       }
    }
 }

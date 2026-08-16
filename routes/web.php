@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\GalleryController;
@@ -15,9 +15,8 @@ use App\Http\Controllers\Admin\PartnerController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/kategori', [CategoryController::class, 'index'])->name('categories.index');
-
-Route::get('/kategori/{slug}', [CategoryController::class, 'show'])->name('categories.show');
+Route::get('/kategori/{slug}', [CategoryController::class, 'show'])
+   ->name('categories.show');
 
 Route::post('/pesanan', [OrderController::class, 'store'])->name('orders.store');
 
@@ -41,9 +40,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
    
    Route::resource('products', ProductController::class)->except(['show']);
    
-   Route::resource('orders', OrderController::class)->only(['index', 'show', 'update']);
+   Route::resource('orders', App\Http\Controllers\Admin\OrderController::class)
+      ->only(['index', 'show', 'update']);
    
-   Route::resource('settings', SettingController::class)->only(['index', 'update']);
+   Route::resource('settings', SettingController::class)
+      ->only(['index', 'update']);
 
    Route::resource('testimonials', TestimonialController::class)
       ->only(['index', 'update', 'destroy'])

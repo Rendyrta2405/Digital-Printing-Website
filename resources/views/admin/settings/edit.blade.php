@@ -19,7 +19,7 @@
   ];
 @endphp
 
-<form method="POST" action="{{ route('admin.settings.update', $site) }}" enctype="multipart/form-data"
+<form method="POST" action="{{ route('admin.settings.update', $setting) }}" enctype="multipart/form-data"
       class="grid lg:grid-cols-2 gap-5 items-start">
   @csrf
   @method('PATCH')
@@ -31,36 +31,36 @@
       <div>
         <label class="{{ $label }}">Nama Toko</label>
         <input type="text" name="site_name" 
-           value="{{ old('site_name', $site->site_name ?? '') }}" 
+           value="{{ old('site_name', $setting->site_name ?? '') }}" 
            class="{{ $input }}" required
            placeholder="Digital Printing">
       </div>
       <div>
         <label class="{{ $label }}">Tagline</label>
         <input type="text" name="tagline" 
-           value="{{ old('tagline', $site->tagline ?? '') }}" class="{{ $input }}"
+           value="{{ old('tagline', $setting->tagline ?? '') }}" class="{{ $input }}"
            placeholder="Digital Printing nomor 1 di Jakarta">
       </div>
       <div>
         <label class="{{ $label }}">Judul Hero</label>
         <input type="text" name="title" required
-           value="{{ old('title', $site->title ?? '') }}" class="{{ $input }}"
+           value="{{ old('title', $setting->title ?? '') }}" class="{{ $input }}"
            placeholder="Cetak Kilat 1 Jam Jadi!Kualitas Premium, Harga Merakyat">
       </div>
       <div>
         <label class="{{ $label }}">Deskripsi yang menarik </label>
         <textarea name="description" rows="3" class="{{ $input }}"
-           placeholder="Jangan buang waktu antri di tempat lain. Digital Printing siap melayani cetak banner, buku, stiker, dan kebutuhan promosi ..">{{ old('description', $site->description ?? '') }}</textarea>
+           placeholder="Jangan buang waktu antri di tempat lain. Digital Printing siap melayani cetak banner, buku, stiker, dan kebutuhan promosi ..">{{ old('description', $setting->description ?? '') }}</textarea>
       </div>
       <div>
         <label class="{{ $label }}">Sejarah Singkat Tentang Bisnis Saya</label>
         <textarea name="about_text" rows="3" class="{{ $input }}"
-           placeholder="Sejak 2016, Digital Printing telah menjadi mitra percetakan terpercaya bagi ribuan pelanggan, dari UMKM hingga perusahaan besar ...">{{ old('about_text', $site->about_text ?? '') }}</textarea>
+           placeholder="Sejak 2016, Digital Printing telah menjadi mitra percetakan terpercaya bagi ribuan pelanggan, dari UMKM hingga perusahaan besar ...">{{ old('about_text', $setting->about_text ?? '') }}</textarea>
       </div>
       <div>
         <label class="{{ $label }}">Foto Bangunan (opsional)</label>
-        @if ($site?->about_img)
-          <img src="{{ asset('storage/' . $site->about_img) }}" class="w-24 h-24 rounded-xl object-cover mb-2">
+        @if ($setting?->about_img)
+          <img src="{{ asset('storage/' . $setting->about_img) }}" class="w-24 h-24 rounded-xl object-cover mb-2">
         @endif
         <input type="file" name="about_img" accept="image/*" class="{{ $input }}">
       </div>
@@ -75,27 +75,27 @@
         <div>
           <label class="{{ $label }}">No. WhatsApp (format 62…)</label>
           <input type="text" name="whatsapp_number" 
-             value="{{ old('whatsapp_number', $site->whatsapp_number ?? '') }}" 
+             value="{{ old('whatsapp_number', $setting->whatsapp_number ?? '') }}" 
              class="{{ $input }}" required
              placeholder="62xxxxxxxxx">
         </div>
         <div>
           <label class="{{ $label }}">Email</label>
           <input type="email" name="email" 
-             value="{{ old('email', $site->email ?? '') }}" class="{{ $input }}"
+             value="{{ old('email', $setting->email ?? '') }}" class="{{ $input }}"
              placeholder="digital@printing.com">
         </div>
         <div>
           <label class="{{ $label }}">Jam Buka</label>
           <input type="text" name="opening_hours" 
-             value="{{ old('opening_hours', $site->opening_hours ?? '') }}" 
+             value="{{ old('opening_hours', $setting->opening_hours ?? '') }}" 
              class="{{ $input }}" placeholder="Senin - Sabtu, 09.00 - 19.00 WIB">
         </div>
         <div>
           <label class="{{ $label }}">Query Maps (opsional)</label>
           <input type="text" name="maps_query" 
              placeholder="-6.1827085, 106.9467213"
-             value="{{ old('maps_query', $site->maps_query ?? '') }}" 
+             value="{{ old('maps_query', $setting->maps_query ?? '') }}" 
              class="{{ $input }}">
           <p class="text-xs text-slate-400 mt-1">
              Tips: Isi koordinat seperti:
@@ -106,7 +106,7 @@
         <div class="sm:col-span-2">
           <label class="{{ $label }}">Alamat</label>
           <textarea name="address" rows="2" class="{{ $input }}"
-             placeholder="Jl. Soekarno Hatta No. 01, Jakarta Pusat, DKI Jakarta 19900">{{ old('address', $site->address ?? '') }}</textarea>
+             placeholder="Jl. Soekarno Hatta No. 01, Jakarta Pusat, DKI Jakarta 19900">{{ old('address', $setting->address ?? '') }}</textarea>
         </div>
       </div>
     </div>
@@ -121,7 +121,7 @@
             <i class="fa-brands {{ $icon }}"></i> {{ $text }}
             </label>
             <input type="text" name="{{ $column }}" placeholder="digital_printing"
-                   value="{{ old($column, $site->{$column} ?? '') }}" 
+                   value="{{ old($column, $setting->{$column} ?? '') }}" 
                class="{{ $input }}">
           </div>
         @endforeach

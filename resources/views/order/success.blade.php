@@ -28,16 +28,26 @@
           </div>
           <div class="col-6">
             <small class="text-muted d-block">Jumlah</small>
-            <strong>{{ $order->quantity }}
-              @if ($order->width && $order->height) · {{ $order->width }}×{{ $order->height }} m @endif
+            <strong>
+               {{ $order->quantity }}
             </strong>
           </div>
-          <div class="col-12">
-            <small class="text-muted d-block">Estimasi Total</small>
-            <span class="price fs-5">
-               {{ $order->total <= 0 ? 'Konsultasi Harga' :
-               'Rp ' . number_format($order->total, 0, ',', '.') }}
-            </span>
+          <div class="row text-start g-3 mx-auto mb-3 col-12">
+              @if ($order->width && $order->height)
+                <div class="col-6">
+                  <small class="text-muted d-block">Ukuran</small>
+                  <strong>
+                     {{ floatval($order->width) }}×{{ floatval($order->height) }} m 
+                  </strong>
+                </div>
+              @endif
+             <div class="col-6">
+               <small class="text-muted d-block">Estimasi Total</small>
+               <span class="price fs-5">
+                  {{ $order->total <= 0 ? 'Konsultasi Harga' :
+                  'Rp ' . number_format($order->total, 0, ',', '.') }}
+               </span>
+             </div>
           </div>
         </div>
 
