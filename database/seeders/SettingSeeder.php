@@ -15,7 +15,7 @@ class SettingSeeder extends Seeder
     {
         $settings = [
            'site_name' => 'Digital Printing',
-           'tagline' => 'Cetak Kilat 1 Jam Jadi! Kualitas Premium, Harga Merakyat',
+           'tagline' => 'Digital Printing nomor 1 di Jakarta Raya',
            'whatsapp_number' => '6283171125657',
            'email' => 'digital@printing.com',
            'address' => 'Jl. Soekarno Hatta No. 01, Jakarta Pusat, DKI Jakarta 19900',
@@ -26,7 +26,7 @@ Kami percaya bahwa setiap cetakan adalah representasi dari usaha Anda. Itulah me
            'about_img' => null,
            'title' => 'Cetak Kilat 1 Jam Jadi!
 Kualitas Premium, Harga Merakyat',
-           'description' => 'Jangan buang waktu antri di tempat lain. Toko Percetakan siap melayani cetak banner, buku, stiker, dan kebutuhan promosi Anda dengan kecepatan kilat dan hasil yang memukau. Dijamin puas atau uang kembali!',
+           'description' => 'Jangan buang waktu antri di tempat lain. Digital Printing siap melayani cetak banner, buku, stiker, dan kebutuhan promosi Anda dengan kecepatan kilat dan hasil yang memukau. Dijamin puas atau uang kembali!',
            'maps_query' => '-6.1827085, 106.9467213',
         ];
 

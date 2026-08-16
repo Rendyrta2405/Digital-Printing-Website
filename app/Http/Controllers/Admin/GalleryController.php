@@ -60,7 +60,6 @@ class GalleryController extends Controller
     {
        $data = $request->validate([
            'image' => ['nullable', 'image', 'max:2048'],
-           'show_in_web' => ['nullable', 'boolean'],
            'description' => ['nullable', 'string', 'max:100'],
         ]);
 
@@ -91,7 +90,6 @@ class GalleryController extends Controller
    {
       $data = $request->validate([
            'image' => ['required', 'image', 'max:2048'],
-           'show_in_web' => ['nullable', 'boolean'],
            'description' => ['nullable', 'string', 'max:100'],
         ]);
 

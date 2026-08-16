@@ -49,11 +49,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
       ->only(['index', 'update', 'destroy'])
       ->names('testimonials');
 
-   Route::resource('galleries', GalleryController::class)->except(['show']);
+   Route::resource('galleries', GalleryController::class)
+      ->only(['index', 'store', 'destroy']);
    
-   Route::resource('facilities', FacilityController::class)->except(['show', 'create', 'edit']);
+   Route::resource('facilities', FacilityController::class)
+      ->only(['index', 'store', 'destroy']);
    
-   Route::resource('partners', PartnerController::class)->except(['show', 'create', 'edit']);
+   Route::resource('partners', PartnerController::class)
+      ->only(['index', 'store', 'destroy']);
 });
 
 Route::post('/testimoni', [TestimonialController::class, 'store'])->name('testimonials.store');

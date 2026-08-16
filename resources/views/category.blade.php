@@ -1,135 +1,154 @@
 @extends('layouts.app')
 
-@section('title', 'Kategori')
+@section('title', $category->name . ' - ' . $site->site_name)
 
 @section('content')
-<!-- Hero Kategori -->
-<section class="hero mb-5">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-6" data-aos="fade-right" data-aos-duration="1000">
-         <p>{{ $category->slogan ?? '' }}</p>
-        <h1>{{ $category->title }}</h1>
-        <p class="mb-4">{{ $category->description }}</p>
-         @if($category->price_text)
-            <span class="badge bg-success fs-6 mb-3">
-               {{ $category->price_text }} !!!
-            </span>
-         @endif
-        <div class="d-flex flex-wrap gap-3">
-          <a href="https://wa.me/6283171125657?text=Halo%20Toko%20Percetakan%2C%20saya%20ingin%20konsultasi%20cetak%20banner." class="btn btn-wa" target="_blank">
-            <i class="bi bi-whatsapp"></i> Konsultasi Gratis
-          </a>
-          <a href="#faq" class="btn btn-outline-light">Cara Order</a>
-        </div>
-        <!-- Google Review Style -->
-        <div class="google-review">
-          <span class="stars">★★★★★</span>
-          <span class="rating-text">4.9 / 5</span>
-          <span class="total-reviews">(500+ ulasan)</span>
-        </div>
+{{-- ═══ HERO KATEGORI ═══ --}}
+<section class="category-hero">
+  <div class="container position-relative">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7" data-aos="fade-right">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb breadcrumb-light mb-0">
+            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
+          </ol>
+        </nav>
+        <h1 class="fw-extrabold display-4">{{ $category->name }}</h1>
+        <p class="lead mb-4" style="color:rgba(255,255,255,.9)">{{ $category->description }}</p>
+        @if($category->price_text)
+          <span class="price-badge price-badge-lg">{{ $category->price_text }}</span>
+        @endif
       </div>
-      <div class="mt-4 col-md-6 text-center" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
-        <img src="{{ asset('storage/' . $category->image) }}" 
-           alt="{{ $category->name }}" class="img-fluid rounded">
+      <div class="col-lg-5 text-center" data-aos="fade-left">
+        @if($category->image)
+          <img src="{{ asset('storage/' . $category->image) }}" class="img-fluid rounded-4 shadow-lg category-hero-img" alt="{{ $category->name }}">
+        @endif
       </div>
     </div>
   </div>
 </section>
 
-<!-- Section Harga -->
-@if($products->isNotEmpty())
-<section class="py-5 bg-light" id="harga-section">
+{{-- ═══ DAFTAR HARGA ═══ --}}
+<section class="py-5 bg-white">
   <div class="container">
-    <h2 class="section-title" data-aos="fade-down" data-aos-duration="800">Daftar Harga <span>{{ $category->name }}</span></h2>
+    <h2 class="section-title">Daftar Harga <span>{{ $category->name }}</span></h2>
+    <div class="card shadow-sm border-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light">
+            <tr>
+              <th class="ps-4">Produk</th>
+              <th class="text-end pe-4">Harga</th>
+            </tr>
+          </thead>
+          <tbody>
+            @forelse($products as $product)
+              <tr>
+                <td class="ps-4 fw-semibold">
+                  {{ $product->name }}
+                  @if($product->description)
+                    <div class="small text-muted fw-normal">{{ Str::limit($product->description, 60) }}</div>
+                  @endif
+                </td>
+                <td class="text-end pe-4 fw-bold text-primary">
+                  {{ $product->formatPrice() }}{{ $product->price_unit ?? '' }}
+                </td>
+              </tr>
+            @empty
+              <tr><td colspan="2" class="text-center py-4 text-muted">Belum ada produk di kategori ini.</td></tr>
+            @endforelse
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{-- ═══ FILTER & GRID PRODUK ═══ --}}
+<section class="py-5" style="background:#f7f8fb">
+  <div class="container">
+    <h2 class="section-title">Pilih <span>Produk</span></h2>
+    
+    {{-- Filter Chips (Dinamis dari Database) --}}
+    @if($tags->count() > 0)
+      <div class="d-flex flex-wrap justify-content-center gap-2 mb-5">
+        <button class="chip-btn active" data-filter="semua">Semua</button>
+        @foreach($tags as $tag)
+          <button class="chip-btn" data-filter="{{ $tag }}">{{ $tag }}</button>
+        @endforeach
+      </div>
+    @endif
+
+    {{-- Grid Produk --}}
     <div class="row g-4">
-      <div class="col-12 mx-auto">
-        <div class="price-section">
-           @foreach($products as $product)
-             <div class="price-item">
-               <span class="size">{{ $product->name }}</span>
-               <span class="price">{{ $product->price ? 'Rp ' . number_format($product->price, 0, ',', '.') : 'Konsultasi Harga'  }}{{ $product->price_unit ?? '' }}</span>
-             </div>
-           @endforeach
+      @forelse($products as $product)
+        <div class="col-md-6 col-lg-4 product-item" data-tag="{{ $product->tag }}">
+          <div class="card h-100 border-0 shadow-sm hover-lift">
+            @if($product->image)
+              <div class="img-zoom position-relative">
+                <img src="{{ $product->image_url }}" class="card-img-top" alt="{{ $product->name }}">
+                @if($product->badge)
+                  <span class="badge bg-danger position-absolute top-0 end-0 m-3 px-3 py-2">{{ $product->badge }}!</span>
+                @endif
+              </div>
+            @endif
+            <div class="card-body d-flex flex-column">
+              @if($product->tag)
+                <span class="badge bg-primary bg-opacity-10 text-primary align-self-start mb-2 px-2 py-1 small">{{ $product->tag }}</span>
+              @endif
+              <h5 class="card-title fw-bold">{{ $product->name }}</h5>
+              <p class="card-text text-muted flex-grow-1 small">{{ $product->description }}</p>
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <span class="price">{{ $product->formatPrice() }}<small class="text-muted fw-normal">{{ $product->price_unit ?? '' }}</small></span>
+                <button class="btn btn-wa btn-sm" type="button"
+                  data-product-id="{{ $product->id }}"
+                  data-name="{{ $product->name }}"
+                  data-price="{{ $product->price }}"
+                  data-unit="{{ $product->price_unit }}"
+                  data-bs-toggle="modal" data-bs-target="#orderModal">
+                  <i class="bi bi-whatsapp"></i> Pesan
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      @empty
+        <div class="col-12 text-center py-5">
+          <p class="text-muted fs-5">Belum ada produk di kategori ini.</p>
+        </div>
+      @endforelse
     </div>
   </div>
 </section>
-@else
-<div class="bg-light py-5 text-center shadow">
-   Belum ada Produk di Kategori ini 😶
-   <br>
-   📞 Silahkan hubungi kami untuk info lebih lanjut
-   <br>
-   Atau coba temukan produk di Kategori lainnya.
-</div>
-@endif
 
-<!-- Filter Kategori Product -->
-@if($tags->count() > 0)
-<section class="container filter-container">
-  <div class="text-center">
-    <button class="btn-filter active" data-filter="all" data-aos="flip-up" data-aos-delay="100">Semua</button>
-     @foreach($tags as $tag)
-       <button class="btn-filter" data-filter="{{ $tag }}" data-aos="flip-up" data-aos-delay="150">{{ $tag }}</button>
-     @endforeach
-  </div>
-</section>
-@endif
-
-{{-- ═══ GRID PRODUK ═══ --}}
-<!-- Grid Produk Banner -->
-<section class="container overflow-hidden" id="product">
-  <div class="row g-4" id="product-grid">
-     @foreach($products as $product)
-       <div class="col-md-6 col-sm-4 product-item" data-kategori="{{ $product->tag }}" data-aos="" data-aos-delay="">
-         <div class="product-card">
-           <div class="product-image">
-             <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}" onclick="openLightbox(this.src)">
-              @if($product->badge)
-                <span class="product-badge">{{ $product->badge }}</span>
-              @endif
-           </div>
-           <div class="product-info">
-             <h3>{{ $product->name }}</h3>
-             <p>{{ $product->description }}</p>
-              <button type="button" class="btn-order"
-                 data-product-id="{{ $product->id }}"
-                 data-name="{{ $product->name }}"
-                 data-price="{{ $product->price }}"
-                 data-unit="{{ $product->price_unit }}"
-                 data-bs-toggle="modal"
-                 data-bs-target="#orderModal">
-                 {{ $product->formatPrice() }}{{ $product->price_unit ?? '' }}
-              </button>
-             {{-- <a href="javascript:void(0)" class="btn-order" onclick="openOrderModal('Banner Promosi')">{{ $product->formatPrice() }}{{ $product->price_unit ?? '' }}</a> --}}
-           </div>
-         </div>
-       </div>
-     @endforeach
+{{-- ═══ CTA BANTUAN DESAIN ═══ --}}
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="card border-0 shadow-lg p-4 p-md-5 text-center" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe);">
+      <h3 class="fw-bold mb-3">Butuh Bantuan Desain {{ $category->name }}?</h3>
+      <p class="text-muted mb-4">Tim desainer kami siap membantu membuatkan desain sesuai kebutuhan Anda. Gratis konsultasi!</p>
+      <a href="https://wa.me/{{ $site->whatsapp_number }}?text=Halo%20saya%20butuh%20bantuan%20desain%20{{ urlencode($category->name) }}" 
+         class="btn btn-wa btn-lg" target="_blank">
+        <i class="bi bi-whatsapp"></i> Konsultasi Desain Gratis
+      </a>
+    </div>
   </div>
 </section>
 
+{{-- ═══ JS FILTER CHIPS ═══ --}}
 <script>
-   // Filter functionality
-  const filterBtns = document.querySelectorAll('.btn-filter');
-  const products = document.querySelectorAll('.product-item');
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const filterValue = btn.getAttribute('data-filter');
-
-      products.forEach(product => {
-        const kategori = product.getAttribute('data-kategori');
-        if (filterValue === 'all' || kategori === filterValue) {
-          product.style.display = 'block';
-          product.style.animation = 'fadeInUp 0.6s';
+  document.querySelectorAll('.chip-btn').forEach(chip => {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('.chip-btn').forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+      
+      const filter = this.dataset.filter;
+      document.querySelectorAll('.product-item').forEach(item => {
+        if (filter === 'semua' || item.dataset.tag === filter) {
+          item.style.display = '';
         } else {
-          product.style.display = 'none';
+          item.style.display = 'none';
         }
       });
     });

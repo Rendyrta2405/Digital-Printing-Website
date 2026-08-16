@@ -1,89 +1,78 @@
-@extends('admin.layouts.app')
+@extends('admin.layout.app')
 
 @section('title', 'Dashboard')
 
 @section('content')
-<h1 class="text-2xl font-bold text-slate-800 mb-6">Dashboard</h1>
+@php
+  $card = 'bg-white rounded-2xl border border-slate-200 shadow-sm';
+  $chips = [
+    'bg-blue-100 text-blue-600', 'bg-cyan-100 text-cyan-600', 'bg-pink-100 text-pink-600',
+    'bg-amber-100 text-amber-600', 'bg-emerald-100 text-emerald-600', 'bg-violet-100 text-violet-600',
+  ];
+  $items = [
+    ['fa-folder-open', 'Kategori', $stats['categories'], 'categories'],
+    ['fa-boxes-stacked', 'Produk', $stats['products'], 'products'],
+    ['fa-clipboard-check', 'Order Valid', $stats['orders'], 'orders'],
+    ['fa-hourglass-half', 'Lead Menunggu', $stats['leads'], 'orders'],
+    ['fa-calendar-days', 'Order Hari Ini', $stats['ordersToday'], 'orders'],
+    ['fa-sack-dollar', 'Estimasi Pendapatan', 'Rp ' . number_format($stats['revenue'], 0, ',', '.'), 'orders'],
+  ];
+@endphp
 
 {{-- Kartu statistik --}}
-<div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-   <a href="{{ route('admin.categories.index') }}" 
-      class="bg-white rounded-xl shadow p-5">
-      <p class="text-sm text-slate-500">Kategori</p>
-      <p class="text-3xl font-bold text-blue-600">{{ $stats['categories'] }}</p>
-   </a>
-
-   <a href="{{ route('admin.products.index') }}" 
-      class="bg-white rounded-xl shadow p-5">
-      <p class="text-sm text-slate-500">Produk</p>
-      <p class="text-3xl font-bold text-emerald-600">{{ $stats['products'] }}</p>
-   </a>
-   
-   <a href="{{ route('admin.orders.index') }}" class="bg-white rounded-xl shadow p-5">
-      <p class="text-sm text-slate-500">Total Order yang Valid</p>
-      <p class="text-3xl font-bold text-purple-600">{{ $stats['orders'] }}</p>
-   </a>
-      
-   <a href="{{ route('admin.orders.index', ['status' => 'menunggu']) }}" 
-      class="bg-white rounded-xl shadow p-5">
-      <p class="text-sm text-slate-500">Order tidak Valid</p>
-      <p class="text-3xl font-bold text-orange-500">{{ $stats['leads'] }}</p>
-   </a>
-   
-   <a href="{{ route('admin.testimonials.index') }}"
-      class="bg-white rounded-xl shadow p-5">
-      <p class="text-sm text-slate-500">
-         <span>Ulasan yang</span> 
-         <br>
-         <span>Menunggu Persetujuan</span>
-      <p class="text-3xl font-bold text-orange-500">{{ $stats['awaitingApproval'] }}</p>
-      </p>
-   </a>
-   
-   <div class="bg-white rounded-xl shadow p-5">
-      <p class="text-sm text-slate-500">Estimasi Pendapatan</p>
-      <p class="text-3xl font-bold text-slate-800">
-         Rp {{ number_format($stats['revenue'], 0, ',', '.') }}
-      </p>
-   </div>
+<div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
+  @foreach ($items as $i => [$icon, $label, $value, $href])
+    <a class="{{ $card }} p-4"
+       href="{{ $label === 'Lead Menunggu' ? 
+                route("admin.$href.index", ['status' => 'menunggu']) :
+                ($label === 'Estimasi Pendapatan' ? 
+                   route("admin.$href.index", ['status' => 'selesai']) : 
+                   route("admin.$href.index")) 
+             }}">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg mb-3 {{ $chips[$i] }}">
+         <i class="fa-solid {{ $icon }}"></i>
+      </div>
+      <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">{{ $label }}</p>
+      <p class="text-xl font-extrabold mt-0.5 {{ $i === 5 ? 'text-base' : '' }}">{{ $value }}</p>
+    </a>
+  @endforeach
 </div>
 
 {{-- Pesanan terbaru --}}
-<div class="bg-white rounded-xl shadow p-5">
-   <h2 class="font-bold text-slate-800 mb-4">Pesanan Terbaru</h2>
-
-   <table class="w-full text-sm">
+<div class="{{ $card }} overflow-hidden">
+  <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100">
+    <h2 class="font-extrabold">Pesanan Terbaru</h2>
+    <a href="{{ route('admin.orders.index', ['status' => 'baru']) }}" class="text-sm font-bold text-brand hover:underline">Lihat semua →</a>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
       <thead>
-         <tr class="text-left text-slate-500 border-b">
-             <th class="py-2">No. Order</th>
-             <th>Produk</th>
-             <th>Jumlah</th>
-             <th>Total</th>
-             <th>Masuk</th>
-         </tr>
-     </thead>
-      <tbody>
-         @forelse($recentOrders as $order)
-            <tr class="border-b border-slate-100 text-left">
-               <td class="py-2 font-mono text-xs">
-                  <a href="{{ route('admin.orders.show', $order) }}" 
-                     class="font-mono text-xs text-blue-600 hover:underline">
-                        {{ $order->order_number }}
-                     </a>
-               </td>
-               <td>{{ $order->product->name }}</td>
-               <td>{{ $order->quantity }}</td>
-               <td>Rp {{ number_format($order->total, 0, ',', '.') }}</td>
-               <td class="text-slate-500">{{ $order->created_at->diffForHumans() }}</td>
-            </tr>
-         @empty
-            <tr>
-              <td colspan="5" class="py-6 text-center text-slate-400">
-                  Belum ada pesanan masuk.
-              </td>
+        <tr class="text-left text-xs uppercase tracking-wide text-slate-400 bg-slate-50">
+          <th class="px-5 py-3">No. Order</th>
+          <th class="px-5 py-3">Customer</th>
+          <th class="px-5 py-3">Produk</th>
+          <th class="px-5 py-3">Total</th>
+          <th class="px-5 py-3">Status</th>
+          <th class="px-5 py-3">Masuk</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        @forelse ($recentOrders as $order)
+          <tr class="hover:bg-slate-50">
+            <td class="px-5 py-3 font-mono text-xs font-bold text-brand">{{ $order->order_number }}</td>
+            <td class="px-5 py-3 font-semibold">{{ $order->customer_name ?? '-' }}</td>
+            <td class="px-5 py-3">{{ $order->product->name }}</td>
+            <td class="px-5 py-3 font-bold">Rp {{ number_format($order->total, 0, ',', '.') }}</td>
+            <td class="px-5 py-3">
+              <span class="px-2.5 py-1 rounded-full text-xs font-bold {{ $order->statusBadgeClass() }}">{{ ucfirst($order->status) }}</span>
+            </td>
+            <td class="px-5 py-3 text-slate-500">{{ $order->created_at->diffForHumans() }}</td>
           </tr>
-         @endforelse
+        @empty
+          <tr><td colspan="6" class="px-5 py-8 text-center text-slate-400">Belum ada pesanan masuk.</td></tr>
+        @endforelse
       </tbody>
-   </table>
+    </table>
+  </div>
 </div>
 @endsection

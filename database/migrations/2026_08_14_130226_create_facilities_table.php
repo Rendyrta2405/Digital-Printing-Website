@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('facilities', function (Blueprint $table) {
             $table->id();
             $table->string('image');
-            $table->boolean('show_in_web')->default(false)->nullable();
             $table->string('name');
             $table->timestamps();
         });
