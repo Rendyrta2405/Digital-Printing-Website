@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\URL;
 use App\Models\Category;
 use App\Models\Setting;
 use App\Models\Product;
@@ -23,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+       if (app()->environment('production')) {
+          URL::forceScheme('https');
+       }
+       
         View::composer(['layouts.app', 'admin.layout.app'], function ($view) {
            $view->with('navbarCategories', Category::where('is_active', true)
                 ->where('show_in_navbar', true)
