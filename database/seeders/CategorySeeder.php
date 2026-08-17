@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use App\Models\Category;
 
 class CategorySeeder extends Seeder
@@ -88,7 +89,7 @@ class CategorySeeder extends Seeder
       
       foreach ($categories as $data) {
           Category::firstOrCreate(
-             ['name' => $data['name']],
+             ['slug' => Str::slug($data['name'])],
              $data
           );
       }
