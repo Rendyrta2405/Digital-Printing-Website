@@ -7,6 +7,12 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+   {{-- DataTables: core + buttons + responsive --}}
+   <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.0/css/buttons.dataTables.min.css">
+   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.min.css">
+   
   <!-- Custom CSS --> 
   <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
    
@@ -152,6 +158,57 @@
   function closeLightbox() {
     document.getElementById('lightbox').classList.remove('show');
     document.body.style.overflow = '';
+  }
+</script>
+
+{{-- jQuery → DataTables core → Buttons(+html5+print) → JSZip & pdfmake → Responsive --}}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.min.js"></script>
+
+<script>
+  if (window.jQuery && $.fn.DataTable) {
+    var withButtons   = !!$.fn.dataTable.Buttons;
+    var withResponsive = !!$.fn.dataTable.Responsive;
+
+    $.extend(true, $.fn.dataTable.defaults, {
+      pageLength: 10,
+      responsive: withResponsive,
+      // l = length, B = Buttons, f = search, i = info, p = paging
+      dom: withButtons ? '<"dt-toolbar"lBf>rt<"dt-footer"ip>'
+                       : '<"dt-toolbar"lf>rt<"dt-footer"ip>',
+      columnDefs: [
+        { orderable: false, targets: [0, -1] },        // gambar & aksi tak bisa disortir
+        { responsivePriority: 1,    targets: 1 },      // kolom Nama bertahan paling akhir
+        { responsivePriority: 9000, targets: [0, -1] },// gambar & aksi melipat lebih dulu
+      ],
+      buttons: withButtons ? [
+        { extend: 'copy',  text: '📋 Salin', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'csv',   text: '📄 CSV',   exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'excel', text: '📊 Excel', exportOptions: { columns: ':not(.no-export)' } },
+        { extend: 'pdf',   text: '📁 PDF',   exportOptions: { columns: ':not(.no-export)' }, orientation: 'landscape' },
+        { extend: 'print', text: '🖨 Print', exportOptions: { columns: ':not(.no-export)' } },
+      ] : [],
+      language: {
+        search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ baris',
+        info: 'Menampilkan _START_–_END_ dari _TOTAL_ baris',
+        infoEmpty: 'Tidak ada data', infoFiltered: '(disaring dari _MAX_ baris)',
+        zeroRecords: 'Tidak ditemukan hasil yang cocok', emptyTable: 'Belum ada data',
+        paginate: { first: '«', previous: '‹', next: '›', last: '»' },
+      },
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('table.js-datatable').forEach(function (t) {
+        $(t).DataTable();
+      });
+    });
   }
 </script>
 </body>

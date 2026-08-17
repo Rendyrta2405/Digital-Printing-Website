@@ -20,8 +20,7 @@ class OrderController extends Controller
            ->status($request->query('status'))
            ->search($request->query('q'))
            ->latest()
-           ->paginate(10)
-           ->withQueryString();
+           ->get();
 
        return view('admin.orders.index', [
           'orders' => $orders,

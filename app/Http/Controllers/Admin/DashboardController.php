@@ -23,7 +23,7 @@ class DashboardController extends Controller
          'awaitingApproval' => Testimonial::where('is_approved', false)->count(),
       ];
 
-      $recentOrders = Order::valid()->with('product')->latest()->limit(5)->get();
+      $recentOrders = Order::with('product')->latest()->get();
 
       return view('admin.dashboard', compact('stats', 'recentOrders'));
    }

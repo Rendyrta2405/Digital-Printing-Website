@@ -77,7 +77,7 @@
                 <h4 class="fw-extrabold mb-1">{{ $order->order_number }}</h4>
                 <p class="text-muted mb-0">
                   {{ $order->product->name }} · {{ $order->quantity }} pcs
-                  @if ($order->width && $order->height) · {{ $order->width }}×{{ $order->height }} m @endif
+                  @if ($order->width && $order->height) · {{ floatval($order->width) }}×{{ floatval($order->height) }} m @endif
                 </p>
               </div>
               <span class="price fs-5">Rp {{ number_format($order->total, 0, ',', '.') }}</span>

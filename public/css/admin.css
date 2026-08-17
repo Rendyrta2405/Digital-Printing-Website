@@ -6,3 +6,112 @@
 .lightbox p{color:#e2e8f0;margin-top:1rem;font-weight:600}
 .lightbox-close{position:absolute;top:1rem;right:1.2rem;background:rgba(255,255,255,.12);
   border:0;color:#fff;font-size:1.6rem;width:46px;height:46px;border-radius:50%;cursor:pointer}
+
+/* SKIN: selaraskan DataTables dengan tema admin */
+  .dt-toolbar{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;padding:1rem 0 .75rem}
+  .dt-toolbar .dt-length,.dt-toolbar .dt-search{display:flex;align-items:center;gap:.45rem;font-size:.85rem;color:#64748b}
+  .dt-toolbar .dt-length select,.dt-toolbar .dt-search input{
+    border:1px solid #e2e8f0;border-radius:10px;padding:.45rem .7rem;background:#fff}
+  .dt-toolbar .dt-buttons{order:3;width:100%}
+  @media(min-width:768px){.dt-toolbar .dt-buttons{order:0;width:auto;margin-left:auto}}
+
+  .dt-buttons{display:flex;flex-wrap:wrap;gap:.5rem}
+  .dt-buttons .dt-button{
+    background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:.5rem .95rem;
+    font-size:.78rem;font-weight:700;color:#334155;box-shadow:none}
+  .dt-buttons .dt-button:hover{background:#f1f5f9;border-color:#cbd5e1}
+  .dt-buttons .dt-button:active{background:#e2e8f0;box-shadow:none}
+
+  table.dataTable{border-collapse:collapse!important}
+  table.dataTable thead th{
+    border-bottom:2px solid #e2e8f0;font-size:.7rem;letter-spacing:.06em;
+    text-transform:uppercase;color:#94a3b8}
+  table.dataTable tbody td{font-size:.875rem}
+
+  .dt-footer{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;justify-content:space-between;padding:.75rem 0}
+  .dt-footer .dt-info{font-size:.8rem;color:#64748b}
+  .dt-paging .dt-paging-button{
+    border-radius:10px;padding:.35rem .7rem;font-size:.8rem;font-weight:700;
+    color:#334155!important;border:1px solid transparent}
+  .dt-paging .dt-paging-button.current{background:#2563eb;color:#fff!important}
+  .dt-paging .dt-paging-button:hover{background:#e2e8f0;border-color:transparent;color:#0f172a!important}
+
+  /* Titik "+" responsive senada brand */
+  table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before,
+  table.dataTable.dtr-inline.collapsed>tbody>tr>th.dtr-control:before{
+    background:#2563eb;border-radius:6px;box-shadow:none}
+
+/* ═══════════════════════════════════════════════════════
+   SKIN DATATABLES v2 — CMYK ADMIN (dimuat PALING AKHIR)
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Toolbar: Tampilkan | [tombol export] | Cari ── */
+.dt-toolbar{display:flex;flex-wrap:wrap;gap:.9rem;align-items:center;padding:1.1rem .25rem .9rem}
+.dt-toolbar .dt-length,.dt-toolbar .dt-search{display:flex;align-items:center;gap:.45rem;font-size:.85rem;color:#64748b}
+.dt-toolbar .dt-length select,.dt-toolbar .dt-search input{
+  border:1.5px solid #e2e8f0;border-radius:12px;padding:.5rem .8rem;background:#fff;font-size:.85rem;transition:.2s}
+.dt-toolbar .dt-length select:focus,.dt-toolbar .dt-search input:focus{
+  outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.dt-toolbar .dt-buttons{order:3;width:100%}
+@media(min-width:1024px){
+  .dt-toolbar .dt-buttons{order:2;width:auto;margin-left:auto}
+  .dt-toolbar .dt-search{order:3}
+}
+@media(max-width:767px){
+  .dt-toolbar .dt-search{width:100%}
+  .dt-toolbar .dt-search input{flex:1}
+}
+
+/* ── Tombol export: GRADIEN per aksi ── */
+.dt-buttons{
+   display:flex;
+   flex-wrap:wrap;
+   gap:.5rem;
+}
+.dt-buttons .dt-button{
+  border:0!important;
+   border-radius:12px !important;
+   padding:.6rem 1.05rem;
+  font-size:.78rem;
+   font-weight:800;
+   letter-spacing:.02em;
+   color:#fff!important;
+  background-image:none!important;box-shadow:0 4px 12px rgba(15,23,42,.18);transition:.2s;
+}
+.dt-buttons .dt-button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(15,23,42,.25)}
+.dt-buttons .dt-button:active{transform:none;box-shadow:none}
+.dt-buttons .buttons-copy {background:linear-gradient(135deg,#64748b,#475569)!important}
+.dt-buttons .buttons-csv  {background:linear-gradient(135deg,#06b6d4,#0e7490)!important}
+.dt-buttons .buttons-excel{background:linear-gradient(135deg,#22c55e,#15803d)!important}
+.dt-buttons .buttons-pdf  {background:linear-gradient(135deg,#ef4444,#b91c1c)!important}
+.dt-buttons .buttons-print{background:linear-gradient(135deg,#2563eb,#1e40af)!important}
+
+/* ── Tabel: header, zebra, hover ── */
+table.dataTable{border-collapse:collapse!important;margin:0!important}
+table.dataTable thead th{
+  border-bottom:2px solid #e2e8f0;background:#f8fafc;padding:.8rem 1.25rem;
+  font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:#64748b}
+table.dataTable tbody td{padding:.85rem 1.25rem;font-size:.875rem;border-bottom:1px solid #f1f5f9}
+table.dataTable tbody tr:nth-child(even){background:#fafcff}
+table.dataTable tbody tr:hover{background:#eff6ff}
+
+/* ── Footer: info + pagination ── */
+.dt-footer{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;justify-content:space-between;padding:.9rem .25rem .25rem}
+.dt-footer .dt-info{font-size:.8rem;color:#64748b}
+.dt-paging{display:flex;gap:.25rem}
+.dt-paging .dt-paging-button{
+  border-radius:10px;padding:.4rem .75rem;font-size:.8rem;font-weight:700;
+  color:#334155!important;border:1px solid transparent;background:transparent!important}
+.dt-paging .dt-paging-button.current{
+  background:linear-gradient(135deg,#2563eb,#1d4ed8)!important;color:#fff!important;
+  box-shadow:0 4px 10px rgba(37,99,235,.35)}
+.dt-paging .dt-paging-button:hover:not(.current){background:#e2e8f0!important;color:#0f172a!important}
+.dt-paging .dt-paging-button.disabled{opacity:.4}
+
+/* ── Responsive: titik "+" gradasi & child row rapi ── */
+table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before,
+table.dataTable.dtr-inline.collapsed>tbody>tr>th.dtr-control:before{
+  background:linear-gradient(135deg,#2563eb,#06b6d4);border-radius:8px;
+  box-shadow:0 3px 8px rgba(37,99,235,.4);height:1.4em;width:1.4em;line-height:1.4em}
+table.dataTable.dtr-inline.collapsed>tbody>tr.child li{
+  border-bottom:1px dashed #e2e8f0;padding:.45rem .2rem;font-size:.85rem}

@@ -27,7 +27,7 @@
     <dl class="text-sm space-y-2 text-slate-600">
       <div class="flex justify-between"><dt>Jumlah</dt><dd class="font-bold">{{ $order->quantity }}</dd></div>
       @if ($order->width && $order->height)
-        <div class="flex justify-between"><dt>Ukuran</dt><dd class="font-bold">{{ $order->width }} × {{ $order->height }} m</dd></div>
+        <div class="flex justify-between"><dt>Ukuran</dt><dd class="font-bold">{{ floatval($order->width) }} × {{ floatval($order->height) }} m</dd></div>
       @endif
       <div class="flex justify-between"><dt>Desain</dt><dd class="font-bold">{{ $order->design_option === 'punya' ? 'Punya customer' : 'Buatkan' }}</dd></div>
       @if ($order->notes)

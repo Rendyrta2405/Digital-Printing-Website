@@ -23,6 +23,9 @@ class HomeController extends Controller
          ->get();
    
       $navbarCategories = $categories->where('show_in_navbar', true);
+       
+      $carouselItems = $navbarCategories
+         ->whereNotNull('image');
    
       $featuredProducts = Product::where('is_active', true)
          ->where('is_featured', true)
@@ -58,6 +61,7 @@ class HomeController extends Controller
          'productsCount',
          'facilities',
          'partners',
+         'carouselItems',
       ));
     }
 

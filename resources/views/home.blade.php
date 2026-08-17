@@ -61,37 +61,39 @@
 </section>
 
 {{-- ═══ CAROUSEL KATEGORI ═══ --}}
-@if ($navbarCategories->isNotEmpty())
+@if ($carouselItems->isNotEmpty())
 <section class="py-5 overflow-hidden">
   <div class="container">
     <h2 class="section-title">Pilih Kebutuhan <span>Cetak Anda</span></h2>
-    <div id="carouselCategory" class="carousel shadow-lg rounded-4 overflow-hidden" >
+    <div id="carouselCategory" data-bs-wrap="false"
+       class="carousel slide shadow-lg rounded-4 overflow-hidden">
       <div class="carousel-inner">
-        @foreach($navbarCategories as $index => $category)
+        @foreach($carouselItems as $index => $item)
           <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-            @if($category->image)
-              <img src="{{ asset('storage/' . $category->image) }}" class="d-block w-100 img-carousel"
-                   alt="{{ $category->name }}" 
-                 onclick="window.location.href='{{ route('categories.show', $category->slug) }}'">
+            @if($item->image)
+              <img src="{{ asset('storage/' . $item->image) }}" 
+                 class="d-block w-100 img-carousel"
+                   alt="{{ $item->name }}" 
+                 onclick="window.location.href='{{ route('categories.show', $item->slug) }}'">
             @endif
             <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded-3 p-3">
-              <h4 class="fw-bold">{{ $category->name }}</h4>
-              <p class="fs-5 mb-2">{{ Str::limit($category->description, 100) }}</p>
-              @if($category->price_text)
-                <span class="price-badge">{{ $category->price_text }}</span>
+              <h4 class="fw-bold">{{ $item->name }}</h4>
+              <p class="fs-5 mb-2">{{ Str::limit($item->description, 100) }}</p>
+              @if($item->price_text)
+                <span class="price-badge">{{ $item->price_text }}</span>
               @endif
             </div>
           </div>
         @endforeach
       </div>
-       @if ($navbarCategories->whereNotNull('image')->count() > 1)
-         <button class="carousel-control-prev" type="button" data-bs-target="#carouselCategory" data-bs-slide="prev">
-           <span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span>
-         </button>
-         <button class="carousel-control-next" type="button" data-bs-target="#carouselCategory" data-bs-slide="next">
-           <span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span>
-         </button>
-       @endif
+      <button class="carousel-control-prev" type="button" 
+         data-bs-target="#carouselCategory" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" 
+         data-bs-target="#carouselCategory" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span>
+      </button>
     </div>
   </div>
 </section>

@@ -30,14 +30,25 @@
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="bi bi-envelope"></i></span>
             <input type="email" name="email" class="form-control" 
-               value="{{ old('email', 'admin@digitalprinting.com') }}" required autofocus>
+               value="{{ old('email') }}" required autofocus>
           </div>
 
           <label class="form-label fw-bold small">Password</label>
-          <div class="input-group mb-3">
+          <div class="input-group">
             <span class="input-group-text"><i class="bi bi-lock"></i></span>
-            <input type="password" name="password" class="form-control" required
-               value="password">
+            <input type="password" name="password" class="form-control" 
+               required id="passwordInput" pattern=".{8,}">
+
+             <!-- Tambahkan tombol toggle di bawah ini -->
+           <button class="btn btn-outline-secondary" type="button" 
+              id="togglePassword">
+             <i class="bi bi-eye" id="toggleIcon"></i>
+           </button>
+          </div>
+           
+          <div class="mb-3">
+           <small id="errorMessage" 
+              class="text-danger d-none">Password minimal 8 karakter</small>
           </div>
 
           <div class="form-check mb-4">
@@ -45,7 +56,7 @@
             <label class="form-check-label small" for="remember">Ingat saya</label>
           </div>
 
-          <button class="btn btn-wa w-100">Masuk <i class="bi bi-arrow-right"></i></button>
+          <button id="submitBtn" class="disabled btn btn-wa w-100">Masuk <i class="bi bi-arrow-right"></i></button>
         </form>
       </div>
     </div>
@@ -57,5 +68,42 @@
     </p>
   </div>
 
+<script>
+const passwordInput = document.getElementById('passwordInput');
+const submitBtn = document.getElementById('submitBtn');
+const errorMessage = document.getElementById('errorMessage');
+   
+passwordInput.addEventListener('input', () => {
+   if (passwordInput.value.length >= 8) {
+      submitBtn.classList.remove('disabled');
+      errorMessage.classList.add('d-none');
+   } else {
+      errorMessage.classList.remove('d-none');
+      submitBtn.classList.add('disabled');
+   }
+});
+   
+document.getElementById('togglePassword').addEventListener('click', () => {
+  const toggleIcon = document.getElementById('toggleIcon');
+  
+  // Periksa tipe input saat ini
+  if (passwordInput.type === 'password') {
+    // Ubah jadi text agar password terlihat
+    passwordInput.type = 'text';
+    
+    // Ganti ikon menjadi mata dicoret (bi-eye-slash)
+    toggleIcon.classList.remove('bi-eye');
+    toggleIcon.classList.add('bi-eye-slash');
+  } else {
+    // Kembalikan jadi password agar disembunyikan
+    passwordInput.type = 'password';
+    
+    // Ganti kembali menjadi ikon mata biasa (bi-eye)
+    toggleIcon.classList.remove('bi-eye-slash');
+    toggleIcon.classList.add('bi-eye');
+  }
+});
+
+</script>
 </body>
 </html>
