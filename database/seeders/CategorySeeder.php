@@ -87,7 +87,7 @@ class CategorySeeder extends Seeder
       ];
       
       foreach ($categories as $data) {
-          Category::updateOrCreate(
+          Category::firstOrCreate(
              ['name' => $data['name']],
              $data
           );

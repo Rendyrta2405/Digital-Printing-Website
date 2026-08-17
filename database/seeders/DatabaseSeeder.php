@@ -3,10 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Product;
-use App\Models\Order;
-use App\Models\Category;
-use App\Models\Testimonial;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -32,6 +28,7 @@ class DatabaseSeeder extends Seeder
           SettingSeeder::class,
           CategorySeeder::class,
           ProductSeeder::class,
+          TestimonialSeeder::class,
        ]);
        
        //  Category::factory()->count(6)->create()->each(function ($category) {
