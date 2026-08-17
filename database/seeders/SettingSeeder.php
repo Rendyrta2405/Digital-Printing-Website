@@ -30,6 +30,6 @@ Kualitas Premium, Harga Merakyat',
            'maps_query' => '-6.1827085, 106.9467213',
         ];
 
-       Setting::create($settings);
+       Setting::firstOrCreate($settings);
     }
 }
