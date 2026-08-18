@@ -196,11 +196,14 @@
         { extend: 'print', text: '🖨 Print', exportOptions: { columns: ':not(.no-export)' } },
       ] : [],
       language: {
-        search: 'Cari:', lengthMenu: 'Tampilkan _MENU_ baris',
-        info: 'Menampilkan _START_–_END_ dari _TOTAL_ baris',
-        infoEmpty: 'Tidak ada data', infoFiltered: '(disaring dari _MAX_ baris)',
-        zeroRecords: 'Tidak ditemukan hasil yang cocok', emptyTable: 'Belum ada data',
-        paginate: { first: '«', previous: '‹', next: '›', last: '»' },
+        search: 'Cari:',
+         lengthMenu: 'Tampilkan _MENU_ baris',
+         info: 'Menampilkan _START_–_END_ dari _TOTAL_ baris',
+         infoEmpty: 'Tidak ada data, Menampilkan 0 baris', 
+         infoFiltered: '(disaring dari _MAX_ baris)',
+         zeroRecords: 'Tidak ditemukan hasil yang cocok', 
+         emptyTable: 'Belum ada data',
+         paginate: { first: '«', previous: '‹', next: '›', last: '»' },
       },
     });
 

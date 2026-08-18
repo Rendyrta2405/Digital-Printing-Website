@@ -41,7 +41,7 @@
      </tr>
    </thead>
    <tbody class="divide-y divide-slate-100">
-     @forelse ($orders as $order)
+     @foreach ($orders as $order)
        <tr class="hover:bg-slate-50">
          <td class="px-5 py-3 font-mono text-xs font-bold text-brand">
             <a href="{{ route('admin.orders.show', $order) }}">
@@ -62,9 +62,7 @@
            <a href="{{ route('admin.orders.show', $order) }}" class="font-bold text-brand hover:underline">Detail →</a>
          </td>
        </tr>
-     @empty
-       <tr><td colspan="7" class="px-5 py-8 text-center text-slate-400">Tidak ada order yang cocok.</td></tr>
-     @endforelse
+     @endforeach
    </tbody>
  </table>
 </div>

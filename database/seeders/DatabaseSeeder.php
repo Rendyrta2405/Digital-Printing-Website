@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,24 +13,30 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-       
-       User::firstOrCreate(
-          ['email' => 'admin@digitalprinting.com'],
-          ['name' => 'Admin', 'password' => bcrypt('password'), 'is_admin' => true],
-       );
-       
-       User::firstOrCreate(
-          ['email' => 'user@gmail.com'],
-          ['name' => 'User', 'password' => bcrypt('password'), 'is_admin' => false],
-       );
+       if (Setting::count() === 0) {
+          $this->call([SettingSeeder::class]);
+       }
 
-       $this->call([
-          SettingSeeder::class,
-          CategorySeeder::class,
-          ProductSeeder::class,
-          TestimonialSeeder::class,
-       ]);
+       if (User::count() === 0) {
+          User::factory()->admin()->create([
+             'name' => 'Admin',
+             'email' => 'admin@digitalprinting.com',
+          ]);
+          
+          User::factory()->create([
+             'name' => 'User',
+             'email' => 'user@gmail.com',
+          ]);
+          
+          $this->call([
+             SettingSeeder::class,
+             CategorySeeder::class,
+             ProductSeeder::class,
+             TestimonialSeeder::class,
+          ]);
+       }
+       
+
        
        //  Category::factory()->count(6)->create()->each(function ($category) {
        //     Product::factory()

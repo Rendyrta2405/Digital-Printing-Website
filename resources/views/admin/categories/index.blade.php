@@ -29,7 +29,7 @@
      </tr>
    </thead>
    <tbody class="divide-y divide-slate-100">
-     @forelse ($categories as $cat)
+     @foreach ($categories as $cat)
        <tr class="hover:bg-slate-50">
          <td class="px-5 py-3 font-mono font-bold text-slate-400">{{ $cat->sort_order }}</td>
          <td class="px-5 py-3 font-extrabold">
@@ -69,9 +69,7 @@
            </form>
          </td>
        </tr>
-     @empty
-       <tr><td colspan="8" class="px-5 py-8 text-center text-slate-400">Belum ada kategori.</td></tr>
-     @endforelse
+     @endforeach
    </tbody>
  </table>
 </div>

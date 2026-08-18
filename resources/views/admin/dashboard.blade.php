@@ -66,7 +66,7 @@
      </tr>
    </thead>
    <tbody class="divide-y divide-slate-100">
-     @forelse ($recentOrders as $order)
+     @foreach ($recentOrders as $order)
        <tr class="hover:bg-slate-50">
          <td class="px-5 py-3 font-mono text-xs font-bold text-brand">
             <a href="{{ route('admin.orders.show', $order) }}">
@@ -81,9 +81,7 @@
          </td>
          <td class="px-5 py-3 text-slate-500">{{ $order->created_at->diffForHumans() }}</td>
        </tr>
-     @empty
-       <tr><td colspan="6" class="px-5 py-8 text-center text-slate-400">Belum ada pesanan masuk.</td></tr>
-     @endforelse
+     @endforeach
    </tbody>
  </table>
 </div>

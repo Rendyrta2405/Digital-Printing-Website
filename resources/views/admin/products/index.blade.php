@@ -29,7 +29,7 @@
      </tr>
    </thead>
    <tbody class="divide-y divide-slate-100">
-     @forelse ($products as $product)
+     @foreach ($products as $product)
        <tr class="hover:bg-slate-50">
          <td class="px-5 py-3">
            @if ($product->image_url)
@@ -63,9 +63,7 @@
            </form>
          </td>
        </tr>
-     @empty
-       <tr><td colspan="7" class="px-5 py-8 text-center text-slate-400">Belum ada produk.</td></tr>
-     @endforelse
+     @endforeach
    </tbody>
  </table>
 </div>
