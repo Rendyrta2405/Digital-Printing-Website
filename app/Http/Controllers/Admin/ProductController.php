@@ -19,6 +19,9 @@ class ProductController extends Controller
            'products' => Product::with('category')
                     ->latest()
                     ->get(),
+           'categories' => Category::withCount('products')
+                    ->orderBy('sort_order')
+                    ->get(),
         ]);
     }
 
