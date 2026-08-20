@@ -15,7 +15,7 @@ class FacilityController extends Controller
     public function index()
     {
         return view('admin.facilities.index', [
-           'facilities' => Facility::latest()->paginate(10),
+           'facilities' => Facility::latest()->paginate(12),
         ]);
     }
 

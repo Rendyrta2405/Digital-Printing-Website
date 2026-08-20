@@ -43,11 +43,11 @@ class HomeController extends Controller
       $testimonials = Testimonial::where('is_approved', true)->orderBy('sort_order')
          ->get();
 
-      $galleries = Gallery::latest()->paginate(10);
+      $galleries = Gallery::latest()->paginate(12);
        
-      $facilities = Facility::latest()->paginate(6);
+      $facilities = Facility::latest()->paginate(8);
        
-      $partners = Partner::latest()->paginate(10);
+      $partners = Partner::latest()->paginate(12);
 
       $productsCount = Product::count();
    

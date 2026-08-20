@@ -203,7 +203,7 @@
             @endif
             @if($product->image)
               <div class="img-zoom">
-                <img src="{{ asset($product->image) }}" class="card-img-top" alt="{{ $product->name }}"
+                <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}"
                      onclick="openLightbox(this.src, '{{ $product->name }}')" style="cursor:pointer">
               </div>
             @endif
