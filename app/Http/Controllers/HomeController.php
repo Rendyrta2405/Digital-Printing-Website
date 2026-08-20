@@ -40,7 +40,8 @@ class HomeController extends Controller
          ->orderBy('sort_order')
          ->get();
    
-      $testimonials = Testimonial::where('is_approved', true)->orderBy('sort_order')
+      $testimonials = Testimonial::where('is_approved', true)
+         ->latest()
          ->get();
 
       $galleries = Gallery::latest()->paginate(12);
